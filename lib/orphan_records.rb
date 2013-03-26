@@ -44,16 +44,14 @@ module OrphanRecords
       end
     end
 
-    assocs.each do | assoc |
-      puts "\t\"#{assoc.node1.name}\" -> \"#{assoc.node2.name}\" [label=\"#{assoc.attr.name}\"]\n"
-    end
+    assocs
   end
 
   # We're passed a name of things that might be 
   # ActiveRecord models. If we can find the class, and
   # if its a subclass of ActiveRecord::Base,
   # then pass it to the associated block
-  def self.execute
+  def self.get_associations
     tableInfos = []
     ActiveRecord::Base.connection.tables.each do |table_name|
       puts "Looking at table: #{table_name}"
@@ -61,5 +59,32 @@ module OrphanRecords
     end
     
     create_association_info(tableInfos)
+  end
+
+  def self.find_orphan_records(options = {:delete => false})
+    associations = get_associations
+    associations.each do | assoc |
+      puts "\t\"#{assoc.node1.name}\" -> \"#{assoc.node2.name}\" [label=\"#{assoc.attr.name}\"]\n"
+      begin
+        model = eval(assoc.node1.name)
+        model.all.each do |obj|
+          id = obj.send(assoc.attr.name)
+          record = eval(assoc.node2.name).find_by_id(id)
+          if(record.nil?)
+            puts "\t\"#{assoc.node1.name} ID: #{obj.id} associated with #{assoc.node2.name} ID: #{id} which doesn't exist"
+            if(options[:delete])
+              obj.delete
+              puts "\t\"#{assoc.node1.name} ID: #{obj.id} deleted"
+            end
+          end
+        end
+      rescue Exception => e
+        puts e.message
+      end
+    end
+  end
+
+  def self.delete_orphan_records
+    find_orphan_records({:delete => true})
   end
 end
