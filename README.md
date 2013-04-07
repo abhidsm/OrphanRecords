@@ -14,6 +14,9 @@ Released under the same license as Ruby. No Support. No Warranty.
 ### orphan_records
 Gem which show/delete the orphan records in your Rails applivcation
 
+[![Gem Version](https://badge.fury.io/rb/orphan_records.png)](http://badge.fury.io/rb/orphan_records)
+[![Code Climate](https://codeclimate.com/github/abhidsm/OrphanRecords.png)](https://codeclimate.com/github/abhidsm/OrphanRecords)
+
 ### Installation
 
     gem install orphan_records
