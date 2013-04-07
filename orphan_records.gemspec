@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'orphan_records'
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.authors = [%q{abhilash}]
   s.date = %q{2013-04-07}
