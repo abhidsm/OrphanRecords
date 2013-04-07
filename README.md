@@ -19,8 +19,13 @@ Gem which show/delete the orphan records in your Rails applivcation
 [![Code Climate](https://codeclimate.com/github/abhidsm/OrphanRecords.png)](https://codeclimate.com/github/abhidsm/OrphanRecords)
 
 ### Installation
+Add it to your Gemfile:
 
-    gem install orphan_records
+    gem 'orphan_records'
+
+Run the following command to install it:
+
+    bundle install
 
 ### Usage
 
