@@ -10,3 +10,16 @@ Authors:
 <br/> Dave Thomas (Annotate Models)
 
 Released under the same license as Ruby. No Support. No Warranty.
+
+### orphan_records
+Gem which show/delete the orphan records in your Rails applivcation
+
+### Installation
+
+    gem install orphan_records
+
+### Usage
+
+    rake orphan_records:show  # this rake task will show the list of orphan records
+
+    rake orphan_records:delete  # this rake task will delete the orphan records

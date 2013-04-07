@@ -1,7 +1,5 @@
-require File.join(Rails.root, "config/environment")
-
-MODEL_DIR   = File.join(Rails.root, "app/models")
-FIXTURE_DIR = File.join(Rails.root, "test/fixtures")
+require 'rubygems'
+require 'active_support/all'
 
 TableInfo = Struct.new(:name, :attributes)
 Attribute = Struct.new(:name, :type, :default, :isnull)
@@ -53,8 +51,10 @@ module OrphanRecords
   # then pass it to the associated block
   def self.get_associations
     tableInfos = []
+    configurations = YAML::load(File.open(File.join(Rails.root, "config/database.yml")))
+    ActiveRecord::Base.establish_connection configurations[Rails.env]
     ActiveRecord::Base.connection.tables.each do |table_name|
-      puts "Looking at table: #{table_name}"
+      # puts "Looking at table: #{table_name}"
       tableInfos << get_schema_info(table_name)
     end
     
@@ -62,9 +62,10 @@ module OrphanRecords
   end
 
   def self.find_orphan_records(options = {:delete => false})
+    require File.join(Rails.root, "config/environment")
     associations = get_associations
     associations.each do | assoc |
-      puts "\t\"#{assoc.node1.name}\" -> \"#{assoc.node2.name}\" [label=\"#{assoc.attr.name}\"]\n"
+      # puts "\t\"#{assoc.node1.name}\" -> \"#{assoc.node2.name}\" [label=\"#{assoc.attr.name}\"]\n"
       begin
         model = eval(assoc.node1.name)
         model.all.each do |obj|
@@ -79,7 +80,7 @@ module OrphanRecords
           end
         end
       rescue Exception => e
-        puts e.message
+        # puts "\t\t\"#{e.message}"
       end
     end
   end
@@ -87,4 +88,8 @@ module OrphanRecords
   def self.delete_orphan_records
     find_orphan_records({:delete => true})
   end
+
 end
+
+require File.join(File.dirname(__FILE__), "orphan_records/railtie") if defined?(Rails)
+
