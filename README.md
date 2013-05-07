@@ -12,7 +12,7 @@ Authors:
 Released under the same license as Ruby. No Support. No Warranty.
 
 ### orphan_records
-Gem which show/delete the orphan records in your Rails applivcation
+Gem which show/delete the orphan records in your Rails application
 
 [![Gem Version](https://badge.fury.io/rb/orphan_records.png)](http://badge.fury.io/rb/orphan_records)
 [![Build Status](https://secure.travis-ci.org/abhidsm/OrphanRecords.png?branch=master)](http://travis-ci.org/abhidsm/OrphanRecords)
